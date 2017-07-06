@@ -1,0 +1,10 @@
+node_modules
+bower_components
+build
+dist
+node
+target
+.idea
+*.iml
+.DS_Store
+customer-portal-ui/src/js/config.js
