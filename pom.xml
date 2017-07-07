@@ -13,10 +13,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>org.xitikit.spring-boot.environment</groupId>
-    <artifactId>application-properties-processor</artifactId>
+    <groupId>org.xitikit.springboot.environment</groupId>
+    <artifactId>boot-config-loader</artifactId>
     <version>1.0-SNAPSHOT</version>
-
 
     <dependencies>
         <dependency>
@@ -27,11 +26,6 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>0.9.11</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
