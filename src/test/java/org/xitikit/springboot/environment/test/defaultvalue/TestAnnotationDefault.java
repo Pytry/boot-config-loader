@@ -2,7 +2,7 @@ package org.xitikit.springboot.environment.test.defaultvalue;
 
 import org.junit.Test;
 import org.reflections.Reflections;
-import org.xitikit.springboot.environment.SpringConfigFile;
+import org.xitikit.springboot.environment.SpringBootConfigurationFilePath;
 
 import java.util.Set;
 
@@ -20,24 +20,16 @@ public class TestAnnotationDefault{
     @Test
     public void testScan(){
 
-        Package aPackage = this.getClass().getPackage();
-        Reflections reflections = new Reflections(aPackage);
-        Set<Class<?>> types = reflections.getTypesAnnotatedWith(SpringConfigFile.class);
-        assertNotNull("'getTypesAnnotatedWith' returned null for package " + aPackage, types);
-        assertTrue("Expected one class in package " + aPackage + " to be annotated. Found " + types.size() + " classes with '@SpringConfigFile'.", types.size() == 1);
+        Reflections reflections = new Reflections("org.xitikit.springboot.environment.test.defaultvalue");
+        Set<Class<?>> types = reflections.getTypesAnnotatedWith(SpringBootConfigurationFilePath.class);
+        assertNotNull("'getTypesAnnotatedWith' returned null for package " + "org.xitikit.springboot.environment.test.defaultvalue", types);
+        assertTrue("Expected one class in package " + "org.xitikit.springboot.environment.test.defaultvalue" + " to be annotated. Found " + types.size() + " classes with '@SpringBootConfigurationFilePath'.", types.size() == 1);
 
-        types.forEach(
-            t -> {
-                SpringConfigFile annotation = t.getAnnotation(SpringConfigFile.class);
-                String[] value = annotation.value();
-                assertTrue("Expected one default value. Found " + value.length + " values.", value.length == 1);
-                assertNotNull("The default value was null or empty.", trimToNull(value[0]));
-            }
-        );
-    }
-
-    @SpringConfigFile("classpath:application.properties")
-    private class Whatever{
-
+        Class<?> t = types.iterator().next();
+        assertNotNull("The class with the annotation was null.", t);
+        SpringBootConfigurationFilePath annotation = t.getAnnotation(SpringBootConfigurationFilePath.class);
+        assertNotNull("The class " + t.getSimpleName() + " did not contain the " + SpringBootConfigurationFilePath.class.getSimpleName() + " annotation.", annotation);
+        String value = trimToNull(annotation.value());
+        assertNotNull("The default value was null or blank.", value);
     }
 }
