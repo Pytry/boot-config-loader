@@ -34,32 +34,32 @@ public class XitikitPropertiesPostProcessor implements EnvironmentPostProcessor{
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application){
 
-        SpringBootConfigurationFilePath annotation = findAnnotation(application);
+        BootConfigPath annotation = findAnnotation(application);
         if(annotation == null){
-            log.warning(SpringBootConfigurationFilePath.class.getSimpleName() + " was not found on the main application class. Exiting without loading configuration.");
+            log.warning(BootConfigPath.class.getSimpleName() + " was not found on the main application class. Exiting without loading configuration.");
             return;
         }
         addPropertySourceLast(annotation.path(), environment.getPropertySources());
     }
 
-    private SpringBootConfigurationFilePath findAnnotation(SpringApplication application){
+    private BootConfigPath findAnnotation(SpringApplication application){
 
         Class<?> mainApplicationClass = application.getMainApplicationClass();
-        return mainApplicationClass == null ? null : mainApplicationClass.getAnnotation(SpringBootConfigurationFilePath.class);
+        return mainApplicationClass == null ? null : mainApplicationClass.getAnnotation(BootConfigPath.class);
     }
 
     private void addPropertySourceLast(String path, MutablePropertySources propertySources){
 
         path = trimToNull(path);
         if(path == null){
-            throw new IllegalArgumentException(SpringBootConfigurationFilePath.class.getSimpleName() + " was found on the main application class, but the value/path was missing.");
+            throw new IllegalArgumentException(BootConfigPath.class.getSimpleName() + " was found on the main application class, but the value/path was missing.");
         }
         path = aparecium(path);
         if(hasValidExtension(path)){
             propertySources.addLast(buildPropertySource(path));
         }
         else{
-            throw new IllegalArgumentException(SpringBootConfigurationFilePath.class.getSimpleName() + ".path() resolved to an invalid file format.");
+            throw new IllegalArgumentException(BootConfigPath.class.getSimpleName() + ".path() resolved to an invalid file format.");
         }
     }
 
